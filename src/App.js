@@ -1,25 +1,34 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import axios from 'axios';
 import './App.css';
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = { hash: '' };
+  }
+  async loadData() {
+    const resp = await axios.get(`/block/${this.state.hash}.json`);
+
+    console.log(resp.data);
+  }
+
+  hashInput(e) {
+    this.setState({ hash: e.target.value });
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <div>
+          Hash{' '}
+          <input
+            type="text"
+            value={this.state.hash}
+            onChange={this.hashInput.bind(this)}
+          />
+          <button onClick={this.loadData.bind(this)}>Confirm</button>
+        </div>
       </div>
     );
   }
