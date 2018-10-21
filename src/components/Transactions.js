@@ -5,9 +5,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import TableBody from '@material-ui/core/TableBody';
-import ArrowForward from '@material-ui/icons/ArrowForward';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import ImageArrowRight from '../img/arrow_right_green.png';
 import constant from '../constant';
 
 class Transactions extends Component {
@@ -96,7 +96,7 @@ class Transactions extends Component {
                           {this.rendInputs(tx.inputs)}
                         </TableCell>
                         <TableCell component="th" scope="row">
-                          <ArrowForward />
+                          <img className="tx-arrow-col" src={ImageArrowRight} alt="→" />
                         </TableCell>
                         <TableCell component="th" scope="row">
                           {Object.keys(outMap).map((addr, addrIdx) => {
