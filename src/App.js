@@ -18,7 +18,10 @@ const styles = {
 class App extends Component {
   constructor() {
     super();
-    this.state = { hash: '000000000000000001806a922d4d35a37ad9324c690f72d556c6445cb7a9c214', summary: {} };
+    this.state = {
+      hash: '000000000000000001806a922d4d35a37ad9324c690f72d556c6445cb7a9c214',
+      summary: {},
+    };
   }
 
   async search(e) {
@@ -35,9 +38,8 @@ class App extends Component {
       headers: { 'Cache-Control': 'no-cache' },
     });
 
-    console.log('---');
-    console.log(resp.data);
     this.setState({ summary: resp.data });
+    this.setState({ transactions: resp.data.tx });
   }
 
   hashInput(e) {
@@ -54,8 +56,10 @@ class App extends Component {
         />
         <div className={styles.root} />
         <Grid container spacing={16} justify="center">
-          <Summary summary={this.state.summary} />
-          <Transactions />
+          <Grid item xs={8}>
+            <Summary summary={this.state.summary} />
+            <Transactions transactions={this.state.transactions} />
+          </Grid>
         </Grid>
       </div>
     );

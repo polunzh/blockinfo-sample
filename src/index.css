@@ -12,3 +12,16 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+a {
+  outline: 0;
+  cursor: pointer;
+  color: #10ADE4;
+  text-decoration: none;
+}
+
+.strip-table {}
+
+.strip-table>tbody tr:nth-of-type(odd) {
+  background-color: #f9f9f9
+}

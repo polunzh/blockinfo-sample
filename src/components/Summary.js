@@ -11,11 +11,11 @@ class Summary extends Component {
   render() {
     const { summary } = this.props;
     return (
-      <Grid item xs={8}>
-        <h1>Block #358230</h1>
+      <div>
+        <h1>Block #{summary.height}</h1>
         <Grid container spacing={16} justify="center">
           <Grid item xs={6}>
-            <Table>
+            <Table className='strip-table'>
               <TableBody>
                 <TableRow key="summary">
                   <TableCell component="th" scope="row" colSpan={2}>
@@ -32,7 +32,7 @@ class Summary extends Component {
                 </TableRow>
                 <TableRow>
                   <TableCell component="th" scope="row">
-                  Transaction Fees
+                    Transaction Fees
                   </TableCell>
                   <TableCell component="th" scope="row">
                     {summary.fee * 0.00000001} BTC
@@ -40,10 +40,11 @@ class Summary extends Component {
                 </TableRow>
                 <TableRow>
                   <TableCell component="th" scope="row">
-                   Height 
+                    Height
                   </TableCell>
                   <TableCell component="th" scope="row">
-                    {summary.height}{ summary.main_chain && <span>(Main Chain)</span>}
+                    {summary.height}
+                    {summary.main_chain && <span>(Main Chain)</span>}
                   </TableCell>
                 </TableRow>
                 <TableRow>
@@ -82,7 +83,7 @@ class Summary extends Component {
             </Table>
           </Grid>
           <Grid item xs={6}>
-            <Table>
+            <Table className="strip-table">
               <TableBody>
                 <TableRow key="summary">
                   <TableCell component="th" scope="row" colSpan={2}>
@@ -125,7 +126,7 @@ class Summary extends Component {
             </Table>
           </Grid>
         </Grid>
-      </Grid>
+      </div>
     );
   }
 }
