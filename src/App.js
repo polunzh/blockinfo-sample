@@ -1,16 +1,43 @@
 import React, { Component } from 'react';
+import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
-import './App.css';
+
+import SearchBar from './components/SearchBar';
+import Summary from './components/Summary';
+import Transactions from './components/Transactions';
+
+const styles = {
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    textAlign: 'center',
+  },
+};
 
 class App extends Component {
   constructor() {
     super();
-    this.state = { hash: '' };
+    this.state = { hash: '000000000000000001806a922d4d35a37ad9324c690f72d556c6445cb7a9c214', summary: {} };
   }
-  async loadData() {
-    const resp = await axios.get(`/block/${this.state.hash}.json`);
 
+  async search(e) {
+    if (e.key !== 'Enter') {
+      return false;
+    }
+
+    const hash = this.state.hash.trim();
+    if (hash === '') {
+      return false;
+    }
+
+    const resp = await axios.get(`/rawblock/${this.state.hash}`, {
+      headers: { 'Cache-Control': 'no-cache' },
+    });
+
+    console.log('---');
     console.log(resp.data);
+    this.setState({ summary: resp.data });
   }
 
   hashInput(e) {
@@ -19,16 +46,17 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <div>
-          Hash{' '}
-          <input
-            type="text"
-            value={this.state.hash}
-            onChange={this.hashInput.bind(this)}
-          />
-          <button onClick={this.loadData.bind(this)}>Confirm</button>
-        </div>
+      <div>
+        <SearchBar
+          handleKeyPress={this.search.bind(this)}
+          hashInput={this.hashInput.bind(this)}
+          hash={this.state.hash}
+        />
+        <div className={styles.root} />
+        <Grid container spacing={16} justify="center">
+          <Summary summary={this.state.summary} />
+          <Transactions />
+        </Grid>
       </div>
     );
   }
