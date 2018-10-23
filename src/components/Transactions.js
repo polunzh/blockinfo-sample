@@ -91,6 +91,27 @@ class Transactions extends Component {
     this.paginate();
   }
 
+  rendLoadMoreButton() {
+    return (
+      <div className="pagination">
+        <Grid item xs={12}>
+          <Grid container>
+            <Grid item xs={10} />
+            <Grid item xs={2}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={this.paginate.bind(this)}
+              >
+                Load More
+              </Button>
+            </Grid>
+          </Grid>
+        </Grid>
+      </div>
+    );
+  }
+
   render() {
     const { transactions } = this.state;
 
@@ -161,24 +182,7 @@ class Transactions extends Component {
                 </Table>
               );
             })}
-            {this.state.hasMore && (
-              <div className="pagination">
-                <Grid item xs={12}>
-                  <Grid container>
-                    <Grid item xs={10} />
-                    <Grid item xs={2}>
-                      <Button
-                        variant="contained"
-                        style={{ backgroundColor: blue[500] }}
-                        onClick={this.paginate.bind(this)}
-                      >
-                        Load More
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </div>
-            )}
+            {this.state.hasMore && this.rendLoadMoreButton()}
           </Grid>
         )}
       </Grid>

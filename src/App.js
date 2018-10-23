@@ -4,7 +4,7 @@ import red from '@material-ui/core/colors/red';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import axios from 'axios';
 
-import SearchBar from './components/SearchBar';
+import Header from './components/Header';
 import Summary from './components/Summary';
 import Transactions from './components/Transactions';
 
@@ -59,7 +59,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <SearchBar
+        <Header
           handleKeyPress={this.search.bind(this)}
           hashInput={this.hashInput.bind(this)}
           hash={this.state.hash}

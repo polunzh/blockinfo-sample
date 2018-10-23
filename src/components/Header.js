@@ -68,7 +68,7 @@ const styles = theme => ({
   },
 });
 
-function SearchAppBar(props) {
+function Header(props) {
   const { classes } = props;
   return (
     <div className={classes.root}>
@@ -104,10 +104,10 @@ function SearchAppBar(props) {
   );
 }
 
-SearchAppBar.propTypes = {
+Header.propTypes = {
   hash: PropTypes.string,
   hashInput: PropTypes.func,
   search: PropTypes.func,
 };
 
-export default withStyles(styles)(SearchAppBar);
+export default withStyles(styles)(Header);
