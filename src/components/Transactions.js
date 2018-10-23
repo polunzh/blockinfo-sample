@@ -113,7 +113,11 @@ class Transactions extends Component {
                   <TableBody>
                     <TableRow key={'tx-detail' + idx}>
                       <TableCell component="th" scope="row" colSpan={2}>
-                        <a href="https://www.baidu.com">{tx.hash}</a>
+                        <a
+                          href={'https://www.blockchain.com/btc/tx/' + tx.hash}
+                        >
+                          {tx.hash}
+                        </a>
                       </TableCell>
                       <TableCell component="th" scope="row" />
                       <TableCell component="th" scope="row" numeric={true}>
@@ -137,7 +141,14 @@ class Transactions extends Component {
                         {Object.keys(outMap).map((addr, addrIdx) => {
                           return (
                             <div key={addr + addrIdx}>
-                              <a href="http://#">{addr}</a>
+                              <a
+                                href={
+                                  'https://www.blockchain.com/btc/address/' +
+                                  addr
+                                }
+                              >
+                                {addr}
+                              </a>
                               <br />
                             </div>
                           );

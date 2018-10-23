@@ -64,23 +64,36 @@ class App extends Component {
           hashInput={this.hashInput.bind(this)}
           hash={this.state.hash}
         />
-        <Grid container justify="center" className="container">
-          {this.state.errmsg && (
+        {!this.state.summary && (
+          <Grid container justify="center" className="introduction">
+            <Grid item xs={5}>
+              <p>
+                This is a demo site of{' '}
+                <a href="https://www.blockchain.com/">BlockChain</a>, built with{' '}
+                <a href="https://reactjs.org/">React.js</a>
+              </p>
+            </Grid>
+          </Grid>
+        )}
+        {this.state.errmsg && (
+          <Grid container justify="center">
             <Grid item>
               <SnackbarContent
                 style={{ backgroundColor: red[600] }}
                 message={this.state.errmsg}
               />
             </Grid>
-          )}
-          {this.state.summary &&
-            this.state.transactions && (
+          </Grid>
+        )}
+        {this.state.summary &&
+          this.state.transactions && (
+            <Grid container justify="center" className="container">
               <Grid item xs={10}>
                 <Summary summary={this.state.summary} />
                 <Transactions transactions={this.state.transactions} />
               </Grid>
-            )}
-        </Grid>
+            </Grid>
+          )}
       </div>
     );
   }

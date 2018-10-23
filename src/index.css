@@ -20,6 +20,11 @@ a {
   text-decoration: none;
 }
 
+.introduction {
+  margin-top: 50px;
+  padding: 10px;
+}
+
 .container {
   margin-bottom: 50px;
 }

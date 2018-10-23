@@ -112,7 +112,13 @@ class Summary extends Component {
                       Hash
                     </TableCell>
                     <TableCell component="th" scope="row">
-                      {summary.hash}
+                      <a
+                        href={
+                          'https://www.blockchain.com/btc/block' + summary.hash
+                        }
+                      >
+                        {summary.hash}
+                      </a>
                     </TableCell>
                   </TableRow>
                   <TableRow>
@@ -120,15 +126,14 @@ class Summary extends Component {
                       Previous Block
                     </TableCell>
                     <TableCell component="th" scope="row">
-                      {summary.prev_block}
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell component="th" scope="row">
-                      Next Block(s)
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      {summary.next_block}
+                      <a
+                        href={
+                          'https://www.blockchain.com/btc/block' +
+                          summary.prev_block
+                        }
+                      >
+                        {summary.prev_block}
+                      </a>
                     </TableCell>
                   </TableRow>
                   <TableRow>
