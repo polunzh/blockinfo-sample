@@ -80,7 +80,7 @@ function Header(props) {
             color="inherit"
             noWrap
           >
-            BLOCKCHAIN
+            <a href="/">BLOCKCHAIN</a>
           </Typography>
           <div className={classes.grow} />
           <div className={classes.search}>

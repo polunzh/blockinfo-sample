@@ -70,8 +70,9 @@ class App extends Component {
               <p>
                 This is a demo site of{' '}
                 <a href="https://www.blockchain.com/">BlockChain</a>, built with{' '}
-                <a href="https://reactjs.org/">React.js</a>
+                <a href="https://reactjs.org/">React.js</a>.
               </p>
+              <p>Enter block hash in the search box in the top right corner.</p>
             </Grid>
           </Grid>
         )}
