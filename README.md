@@ -32,3 +32,4 @@ yarn test
 
 1. I didn't use the given API, because the given API may load data incomplete，I got the data from https://blockchain.info/rawblock.
 1. More test should be added.
+1. Better error handling.
