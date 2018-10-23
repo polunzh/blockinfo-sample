@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import red from '@material-ui/core/colors/red';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import axios from 'axios';
+import throttle from 'lodash.throttle';
 
 import Header from './components/Header';
 import Summary from './components/Summary';
@@ -12,7 +13,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      hash: '000000000000000001806a922d4d35a37ad9324c690f72d556c6445cb7a9c214',
+      hash: '',
       summary: null,
       errmsg: '',
     };
@@ -22,11 +23,16 @@ class App extends Component {
     this.setState({ errmsg: '' });
   }
 
-  async search(e) {
+  async onKeyPress(e) {
     if (e.key !== 'Enter') {
       return false;
     }
 
+    throttle(this.search.bind(this), 1000)();
+  }
+
+  async search() {
+    console.log('...');
     this.resetErrmsg();
     const hash = this.state.hash.trim();
     if (hash === '') {
@@ -60,7 +66,7 @@ class App extends Component {
     return (
       <div>
         <Header
-          handleKeyPress={this.search.bind(this)}
+          handleKeyPress={this.onKeyPress.bind(this)}
           hashInput={this.hashInput.bind(this)}
           hash={this.state.hash}
         />

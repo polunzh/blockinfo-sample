@@ -88,7 +88,7 @@ function Header(props) {
               <SearchIcon />
             </div>
             <InputBase
-              placeholder="Hash"
+              placeholder="block hash"
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,

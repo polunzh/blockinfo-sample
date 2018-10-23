@@ -5,7 +5,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import TableBody from '@material-ui/core/TableBody';
-import blue from '@material-ui/core/colors/blue';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import ImageArrowRight from '../img/arrow_right_green.png';
