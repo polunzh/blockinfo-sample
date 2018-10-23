@@ -64,7 +64,7 @@ class App extends Component {
           hashInput={this.hashInput.bind(this)}
           hash={this.state.hash}
         />
-        <Grid container justify="center">
+        <Grid container justify="center" className="container">
           {this.state.errmsg && (
             <Grid item>
               <SnackbarContent

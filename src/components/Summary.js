@@ -10,6 +10,7 @@ import moment from 'moment';
 class Summary extends Component {
   render() {
     const { summary } = this.props;
+
     return (
       <Grid container>
         {summary && (

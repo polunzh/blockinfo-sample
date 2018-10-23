@@ -20,6 +20,10 @@ a {
   text-decoration: none;
 }
 
+.container {
+  margin-bottom: 50px;
+}
+
 .strip-table {}
 
 .strip-table>tbody tr:nth-of-type(odd) {
@@ -28,4 +32,8 @@ a {
 
 .tx-arrow-col {
   width: 20px;
+}
+
+.pagination {
+  margin-top: 10px;
 }

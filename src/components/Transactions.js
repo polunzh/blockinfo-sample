@@ -5,12 +5,26 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import TableBody from '@material-ui/core/TableBody';
+import blue from '@material-ui/core/colors/blue';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import ImageArrowRight from '../img/arrow_right_green.png';
 import constant from '../constant';
 
 class Transactions extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      hasMore: false,
+      pagination: {
+        pageSize: 10,
+        pageIndex: 0,
+      },
+      transactions: [],
+    };
+  }
+
   groupByAddress(transactions) {
     const result = {};
     transactions.forEach(item => {
@@ -57,8 +71,28 @@ class Transactions extends Component {
     return 'No Inputs (Newly Generated Coins)';
   }
 
+  paginate() {
+    const pagination = this.state.pagination;
+
+    const transactions = this.props.transactions.slice(
+      0,
+      (pagination.pageIndex + 1) * pagination.pageSize
+    );
+
+    pagination.pageIndex++;
+    this.setState({
+      pagination,
+      transactions,
+      hasMore: transactions.length < this.props.transactions.length,
+    });
+  }
+
+  componentDidMount() {
+    this.paginate();
+  }
+
   render() {
-    const { transactions } = this.props;
+    const { transactions } = this.state;
 
     return (
       <Grid container>
@@ -127,6 +161,24 @@ class Transactions extends Component {
                 </Table>
               );
             })}
+            {this.state.hasMore && (
+              <div className="pagination">
+                <Grid item xs={12}>
+                  <Grid container>
+                    <Grid item xs={10} />
+                    <Grid item xs={2}>
+                      <Button
+                        variant="contained"
+                        style={{ backgroundColor: blue[500] }}
+                        onClick={this.paginate.bind(this)}
+                      >
+                        Load More
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </div>
+            )}
           </Grid>
         )}
       </Grid>
