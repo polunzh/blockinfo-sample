@@ -61,79 +61,75 @@ class Transactions extends Component {
     const { transactions } = this.props;
 
     return (
-      <div>
-        <h1>Transactions</h1>
+      <Grid container>
+        <Grid item xs={12}>
+          <h1>Transactions</h1>
+        </Grid>
         {transactions && (
-          <Grid container spacing={16} justify="center">
-            <Grid item xs={12}>
-              {transactions.map((tx, idx) => {
-                const outMap = this.groupByAddress(tx.out);
-                let totalOutput = 0;
-                tx.out.forEach(out => {
-                  totalOutput += out.value;
-                });
+          <Grid item xs={12}>
+            {transactions.map((tx, idx) => {
+              const outMap = this.groupByAddress(tx.out);
+              let totalOutput = 0;
+              tx.out.forEach(out => {
+                totalOutput += out.value;
+              });
 
-                return (
-                  <Table className="strip-table">
-                    <TableBody>
-                      <TableRow key={idx}>
-                        <TableCell component="th" scope="row" colSpan={2}>
-                          <a href="https://www.baidu.com">{tx.hash}</a>
-                        </TableCell>
-                        <TableCell component="th" scope="row" />
-                        <TableCell
-                          component="th"
-                          scope="row"
-                          style={{ textAlign: 'right' }}
-                        >
-                          {moment(tx.time * 1000).format(
-                            constant.DATETIME_FORMAT
-                          )}
-                        </TableCell>
-                      </TableRow>
-                      <TableRow key={idx + Date.now()}>
-                        <TableCell component="th" scope="row">
-                          {this.rendInputs(tx.inputs)}
-                        </TableCell>
-                        <TableCell component="th" scope="row">
-                          <img className="tx-arrow-col" src={ImageArrowRight} alt="→" />
-                        </TableCell>
-                        <TableCell component="th" scope="row">
-                          {Object.keys(outMap).map((addr, addrIdx) => {
-                            return (
-                              <div key={addr + addrIdx}>
-                                <a href="http://#">{addr}</a>
-                                <br />
-                              </div>
-                            );
-                          })}
-                        </TableCell>
-                        <TableCell
-                          component="th"
-                          scope="row"
-                          style={{ textAlign: 'right' }}
-                        >
-                          {Object.values(outMap).map((value, valueIdx) => {
-                            return (
-                              <div key={value + valueIdx}>
-                                {this.formatValue(value)} BTC
-                                <br />
-                              </div>
-                            );
-                          })}
-                          <Button variant="contained" color="primary">
-                            {this.formatValue(totalOutput)} BTC
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                );
-              })}
-            </Grid>
+              return (
+                <Table className="strip-table" key={'tx' + idx}>
+                  <TableBody>
+                    <TableRow key={'tx-detail' + idx}>
+                      <TableCell component="th" scope="row" colSpan={2}>
+                        <a href="https://www.baidu.com">{tx.hash}</a>
+                      </TableCell>
+                      <TableCell component="th" scope="row" />
+                      <TableCell component="th" scope="row" numeric={true}>
+                        {moment(tx.time * 1000).format(
+                          constant.DATETIME_FORMAT
+                        )}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow key={idx + Date.now()}>
+                      <TableCell component="th" scope="row">
+                        {this.rendInputs(tx.inputs)}
+                      </TableCell>
+                      <TableCell component="th" scope="row">
+                        <img
+                          className="tx-arrow-col"
+                          src={ImageArrowRight}
+                          alt="→"
+                        />
+                      </TableCell>
+                      <TableCell component="th" scope="row">
+                        {Object.keys(outMap).map((addr, addrIdx) => {
+                          return (
+                            <div key={addr + addrIdx}>
+                              <a href="http://#">{addr}</a>
+                              <br />
+                            </div>
+                          );
+                        })}
+                      </TableCell>
+                      <TableCell component="th" scope="row" numeric={true}>
+                        {Object.values(outMap).map((value, valueIdx) => {
+                          return (
+                            <div key={value + valueIdx}>
+                              {this.formatValue(value)} BTC
+                              <br />
+                            </div>
+                          );
+                        })}
+                        <Button variant="contained" color="primary">
+                          {this.formatValue(totalOutput)} BTC
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              );
+            })}
           </Grid>
         )}
-      </div>
+      </Grid>
     );
   }
 }

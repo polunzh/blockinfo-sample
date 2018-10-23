@@ -11,11 +11,13 @@ class Summary extends Component {
   render() {
     const { summary } = this.props;
     return (
-      <div>
-        <h1>Block #{summary.height}</h1>
-        <Grid container spacing={16} justify="center">
+      <Grid container>
+        <Grid item xs={12}>
+          <h1>Block #{summary.height}</h1>
+        </Grid>
+        <Grid container spacing={8} justify="center">
           <Grid item xs={6}>
-            <Table className='strip-table'>
+            <Table className="strip-table">
               <TableBody>
                 <TableRow key="summary">
                   <TableCell component="th" scope="row" colSpan={2}>
@@ -43,8 +45,17 @@ class Summary extends Component {
                     Height
                   </TableCell>
                   <TableCell component="th" scope="row">
-                    {summary.height}
-                    {summary.main_chain && <span>(Main Chain)</span>}
+                    <a
+                      href={
+                        'https://www.blockchain.com/btc/block-height/' +
+                        summary.height
+                      }
+                    >
+                      {summary.height}
+                    </a>
+                    {summary.main_chain && (
+                      <font color="green"> (Main Chain)</font>
+                    )}
                   </TableCell>
                 </TableRow>
                 <TableRow>
@@ -76,7 +87,7 @@ class Summary extends Component {
                     Timestamp
                   </TableCell>
                   <TableCell component="th" scope="row">
-                    {moment(summary.timestap).format('YYYY-MM-DD HH:mm:ss')}
+                    {moment(summary.time * 1000).format('YYYY-MM-DD HH:mm:ss')}
                   </TableCell>
                 </TableRow>
               </TableBody>
@@ -126,7 +137,7 @@ class Summary extends Component {
             </Table>
           </Grid>
         </Grid>
-      </div>
+      </Grid>
     );
   }
 }

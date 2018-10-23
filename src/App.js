@@ -54,9 +54,8 @@ class App extends Component {
           hashInput={this.hashInput.bind(this)}
           hash={this.state.hash}
         />
-        <div className={styles.root} />
-        <Grid container spacing={16} justify="center">
-          <Grid item xs={8}>
+        <Grid container justify="center">
+          <Grid item xs={10}>
             <Summary summary={this.state.summary} />
             <Transactions transactions={this.state.transactions} />
           </Grid>
