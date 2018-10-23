@@ -6,6 +6,7 @@ import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import PropTypes from 'prop-types';
 
 const styles = theme => ({
@@ -69,7 +70,7 @@ const styles = theme => ({
 });
 
 function Header(props) {
-  const { classes } = props;
+  const { classes, searching } = props;
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -85,7 +86,8 @@ function Header(props) {
           <div className={classes.grow} />
           <div className={classes.search}>
             <div className={classes.searchIcon}>
-              <SearchIcon />
+              {!searching && <SearchIcon />}
+              {searching && <CircularProgress color="inherit" size={30} />}
             </div>
             <InputBase
               placeholder="block hash"
@@ -108,6 +110,7 @@ Header.propTypes = {
   hash: PropTypes.string,
   hashInput: PropTypes.func,
   search: PropTypes.func,
+  searching: PropTypes.bool,
 };
 
 export default withStyles(styles)(Header);

@@ -17,7 +17,7 @@ class Transactions extends Component {
     this.state = {
       hasMore: false,
       pagination: {
-        pageSize: 10,
+        pageSize: 50,
         pageIndex: 0,
       },
       transactions: [],
@@ -72,7 +72,6 @@ class Transactions extends Component {
 
   paginate() {
     const pagination = this.state.pagination;
-
     const transactions = this.props.transactions.slice(
       0,
       (pagination.pageIndex + 1) * pagination.pageSize
@@ -102,7 +101,8 @@ class Transactions extends Component {
                 color="primary"
                 onClick={this.paginate.bind(this)}
               >
-                Load More
+                Load More ({this.state.transactions.length}/
+                {this.props.transactions.length})
               </Button>
             </Grid>
           </Grid>
@@ -117,7 +117,6 @@ class Transactions extends Component {
     return (
       <Grid container>
         <Grid item xs={12}>
-          <h1>Transactions</h1>
         </Grid>
         {transactions && (
           <Grid item xs={12}>

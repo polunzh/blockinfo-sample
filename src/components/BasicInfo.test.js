@@ -1,8 +1,8 @@
 import TestRenderer from 'react-test-renderer';
 import React from 'react';
-import Summary, { BasicInfo, HashesInfo } from './Summary';
+import BasicInfo, { Summary, HashesInfo } from './BasicInfo';
 
-test('Summary component should contains BasicInfo and HashesInfo component', () => {
+test('BasicInfo component should contains Summary and HashesInfo component', () => {
   const basicInfo = {
     n_tx: 20,
     fee: 10,
@@ -19,14 +19,14 @@ test('Summary component should contains BasicInfo and HashesInfo component', () 
       '83f5fdf40b0b02c09ae669041df1bedfc635c45f696057a8c29e1bde1f4cbd24',
   };
 
-  const testSummary = TestRenderer.create(
-    <Summary summary={{ ...basicInfo, ...hashes }} />
+  const testBasicInfo = TestRenderer.create(
+    <BasicInfo basicInfo={{ ...basicInfo, ...hashes }} />
   );
-  const testSummaryInstance = testSummary.root;
-  expect(testSummaryInstance.findByType(BasicInfo).props.summary).toEqual(
+  const testBasicInfoInstance = testBasicInfo.root;
+  expect(testBasicInfoInstance.findByType(Summary).props.summary).toEqual(
     basicInfo
   );
-  expect(testSummaryInstance.findByType(HashesInfo).props.hashesInfo).toEqual(
+  expect(testBasicInfoInstance.findByType(HashesInfo).props.hashesInfo).toEqual(
     hashes
   );
 });

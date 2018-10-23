@@ -6,7 +6,7 @@ import axios from 'axios';
 import throttle from 'lodash.throttle';
 
 import Header from './components/Header';
-import Summary from './components/Summary';
+import BasicInfo from './components/BasicInfo';
 import Transactions from './components/Transactions';
 
 class App extends Component {
@@ -14,8 +14,9 @@ class App extends Component {
     super();
     this.state = {
       hash: '',
-      summary: null,
+      basicInfo: null,
       errmsg: '',
+      searching: false,
     };
   }
 
@@ -32,12 +33,17 @@ class App extends Component {
   }
 
   async search() {
-    console.log('...');
-    this.resetErrmsg();
+    if (this.state.searching) {
+      return false;
+    }
+
     const hash = this.state.hash.trim();
     if (hash === '') {
       return false;
     }
+
+    this.resetErrmsg();
+    this.setState({ searching: true });
 
     try {
       const hash = this.state.hash.trim();
@@ -49,12 +55,18 @@ class App extends Component {
         headers: { 'Cache-Control': 'no-cache' },
       });
 
-      const { tx: transactions, ...summary } = resp.data;
-      this.setState({ summary });
+      const { tx: transactions, ...basicInfo } = resp.data;
+      this.setState({ basicInfo });
       this.setState({ transactions });
     } catch (error) {
       console.error(`search error: ${error.message}`);
-      this.setState({ errmsg: 'Load data failed!' });
+      if (error.response && error.response.data) {
+        this.setState({ errmsg: error.response.data });
+      } else {
+        this.setState({ errmsg: `Load data failed:${error.message}` });
+      }
+    } finally {
+      this.setState({ searching: false });
     }
   }
 
@@ -69,8 +81,9 @@ class App extends Component {
           handleKeyPress={this.onKeyPress.bind(this)}
           hashInput={this.hashInput.bind(this)}
           hash={this.state.hash}
+          searching={this.state.searching}
         />
-        {!this.state.summary && (
+        {!this.state.basicInfo && (
           <Grid container justify="center" className="introduction">
             <Grid item xs={5}>
               <p>
@@ -92,11 +105,11 @@ class App extends Component {
             </Grid>
           </Grid>
         )}
-        {this.state.summary &&
+        {this.state.basicInfo &&
           this.state.transactions && (
             <Grid container justify="center" className="container">
               <Grid item xs={10}>
-                <Summary summary={this.state.summary} />
+                <BasicInfo basicInfo={this.state.basicInfo} />
                 <Transactions transactions={this.state.transactions} />
               </Grid>
             </Grid>

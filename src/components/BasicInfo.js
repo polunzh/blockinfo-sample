@@ -7,7 +7,7 @@ import TableBody from '@material-ui/core/TableBody';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-class BasicInfo extends Component {
+class Summary extends Component {
   render() {
     const { summary } = this.props;
     return (
@@ -94,7 +94,7 @@ class HashesInfo extends Component {
     return (
       <Table className="strip-table">
         <TableBody>
-          <TableRow key="summary">
+          <TableRow key="hash">
             <TableCell component="th" scope="row" colSpan={2}>
               Hashes
             </TableCell>
@@ -129,9 +129,9 @@ class HashesInfo extends Component {
   }
 }
 
-class Summary extends Component {
+class BasicInfo extends Component {
   render() {
-    const { hash, prev_block, mrkl_root, ...summary } = this.props.summary;
+    const { hash, prev_block, mrkl_root, ...summary } = this.props.basicInfo;
     const hashesInfo = { hash, prev_block, mrkl_root };
 
     return (
@@ -144,7 +144,7 @@ class Summary extends Component {
         {summary && (
           <Grid container spacing={8} justify="center">
             <Grid item xs={6}>
-              <BasicInfo summary={summary} />
+              <Summary summary={summary} />
             </Grid>
             <Grid item xs={6}>
               <HashesInfo hashesInfo={hashesInfo} />
@@ -156,9 +156,9 @@ class Summary extends Component {
   }
 }
 
-Summary.propTypes = {
-  summary: PropTypes.object.isRequired,
+BasicInfo.propTypes = {
+  basicInfo: PropTypes.object.isRequired,
 };
 
-export default Summary;
-export { BasicInfo, HashesInfo };
+export default BasicInfo;
+export { Summary, HashesInfo };
