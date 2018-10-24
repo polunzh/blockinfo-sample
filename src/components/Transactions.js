@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import ImageArrowRight from '../img/arrow_right_green.png';
 import constant from '../constant';
+import lib from '../lib';
 
 class Transactions extends Component {
   constructor() {
@@ -17,26 +18,11 @@ class Transactions extends Component {
     this.state = {
       hasMore: false,
       pagination: {
-        pageSize: 50,
+        pageSize: constant.PAGE_SIZE,
         pageIndex: 0,
       },
       transactions: [],
     };
-  }
-
-  groupByAddress(transactions) {
-    const result = {};
-    transactions.forEach(item => {
-      if (!result[item.addr]) {
-        result[item.addr] = item.value;
-      } else {
-        result[item.addr] += item.value;
-      }
-
-      return item;
-    }, {});
-
-    return result;
   }
 
   formatValue(value) {
@@ -86,6 +72,12 @@ class Transactions extends Component {
   }
 
   componentDidMount() {
+    if (this.props.pageSize) {
+      const pagination = this.state.pagination;
+      pagination.pageSize = this.props.pageSize;
+      this.setState({ pagination });
+    }
+
     this.paginate();
   }
 
@@ -116,12 +108,10 @@ class Transactions extends Component {
 
     return (
       <Grid container>
-        <Grid item xs={12}>
-        </Grid>
         {transactions && (
           <Grid item xs={12}>
             {transactions.map((tx, idx) => {
-              const outMap = this.groupByAddress(tx.out);
+              const outMap = lib.groupTransactionsByAddress(tx.out);
               let totalOutput = 0;
               tx.out.forEach(out => {
                 totalOutput += out.value;
@@ -200,7 +190,7 @@ class Transactions extends Component {
 }
 
 Transactions.propTypes = {
-  transactions: PropTypes.array,
+  transactions: PropTypes.array.isRequired,
 };
 
 export default Transactions;

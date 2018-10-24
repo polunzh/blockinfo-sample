@@ -53,6 +53,7 @@ class App extends Component {
 
       const resp = await axios.get(`/rawblock/${this.state.hash}`, {
         headers: { 'Cache-Control': 'no-cache' },
+        timeout: 50000,
       });
 
       const { tx: transactions, ...basicInfo } = resp.data;
@@ -110,7 +111,10 @@ class App extends Component {
             <Grid container justify="center" className="container">
               <Grid item xs={10}>
                 <BasicInfo basicInfo={this.state.basicInfo} />
-                <Transactions transactions={this.state.transactions} />
+                <Transactions
+                  transactions={this.state.transactions}
+                  pageSize={20}
+                />
               </Grid>
             </Grid>
           )}
