@@ -110,7 +110,7 @@ Header.propTypes = {
   hash: PropTypes.string,
   hashInput: PropTypes.func,
   search: PropTypes.func,
-  searching: PropTypes.bool,
+  searching: PropTypes.bool.isRequired,
 };
 
 export default withStyles(styles)(Header);

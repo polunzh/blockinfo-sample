@@ -104,7 +104,11 @@ class HashesInfo extends Component {
               Hash
             </TableCell>
             <TableCell component="th" scope="row">
-              {hashesInfo.hash}
+              <a
+                href={'https://www.blockchain.com/btc/block/' + hashesInfo.hash}
+              >
+                {hashesInfo.hash}
+              </a>
             </TableCell>
           </TableRow>
           <TableRow>
@@ -112,7 +116,14 @@ class HashesInfo extends Component {
               Previous Block
             </TableCell>
             <TableCell component="th" scope="row">
-              {hashesInfo.prev_block}
+              <a
+                href={
+                  'https://www.blockchain.com/btc/block/' +
+                  hashesInfo.prev_block
+                }
+              >
+                {hashesInfo.prev_block}
+              </a>
             </TableCell>
           </TableRow>
           <TableRow>
@@ -141,16 +152,17 @@ class BasicInfo extends Component {
             <h1>Block #{summary.height}</h1>
           </Grid>
         )}
-        {summary && (
-          <Grid container spacing={8} justify="center">
-            <Grid item xs={6}>
-              <Summary summary={summary} />
+        {summary &&
+          hashesInfo && (
+            <Grid container spacing={8} justify="center">
+              <Grid item xs={6}>
+                <Summary summary={summary} />
+              </Grid>
+              <Grid item xs={6}>
+                <HashesInfo hashesInfo={hashesInfo} />
+              </Grid>
             </Grid>
-            <Grid item xs={6}>
-              <HashesInfo hashesInfo={hashesInfo} />
-            </Grid>
-          </Grid>
-        )}
+          )}
       </Grid>
     );
   }
