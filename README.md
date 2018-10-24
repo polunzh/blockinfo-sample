@@ -19,7 +19,7 @@ yarn start:proxy
 * start web
 
 ``` sh
-yarn star
+yarn start
 ```
 
 ## Run test
