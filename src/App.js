@@ -32,6 +32,10 @@ class App extends Component {
     this.setState({ errmsg: '' });
   }
 
+  verifyHash(hash) {
+    return /[a-zA-Z0-9]{64}/.test(hash);
+  }
+
   async onKeyPress(e) {
     if (e.key !== 'Enter') {
       return false;
@@ -46,8 +50,8 @@ class App extends Component {
     }
 
     const hash = this.state.hash.trim();
-    if (hash.length !== 64) {
-      this.setState({ errmsg: 'Block hash size is 64!' });
+    if (!this.verifyHash(hash)) {
+      this.setState({ errmsg: 'Invalid block hash' });
       return false;
     }
 
