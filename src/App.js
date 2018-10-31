@@ -95,7 +95,6 @@ class App extends Component {
       (pagination.pageIndex + 1) * pagination.pageSize
     );
 
-    console.log(currentTransactions.length);
     pagination.pageIndex++;
     this.setState({
       pagination,
