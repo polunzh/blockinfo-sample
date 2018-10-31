@@ -1,28 +1,28 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
-import red from '@material-ui/core/colors/red';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
 import axios from 'axios';
 import throttle from 'lodash.throttle';
 
 import constant from './constant';
 import Header from './components/Header';
+import Search from './components/Search';
 import BasicInfo from './components/BasicInfo';
 import Transactions from './components/Transactions';
 
 class App extends Component {
   constructor() {
     super();
+
     this.state = {
       hash: '',
       basicInfo: null,
       errmsg: '',
       searching: false,
-      hasMoreTransactions: false,
       pagination: {
         pageSize: constant.PAGE_SIZE,
         pageIndex: 0,
       },
+      hasMoreTransactions: false,
       transactions: [],
       currentTransactions: [],
       totalTransactionLength: 0,
@@ -47,22 +47,19 @@ class App extends Component {
     }
 
     const hash = this.state.hash.trim();
-    if (hash === '') {
+    if (hash.length !== 64) {
+      this.setState({ errmsg: 'Block hash size is 64!' });
       return false;
     }
 
-    this.resetErrmsg();
-    this.setState({ searching: true });
-
     try {
-      const hash = this.state.hash.trim();
-      if (hash === '') {
-        return false;
-      }
+      this.resetPagination();
+      this.resetErrmsg();
+      this.setState({ searching: true });
 
       const resp = await axios.get(`/rawblock/${this.state.hash}`, {
         headers: { 'Cache-Control': 'no-cache' },
-        timeout: 50000,
+        timeout: 20000,
       });
 
       const { tx: transactions, ...basicInfo } = resp.data;
@@ -84,6 +81,13 @@ class App extends Component {
     }
   }
 
+  resetPagination() {
+    const pagination = this.state.pagination;
+    pagination.pageIndex = 0;
+
+    this.setState({ pagination });
+  }
+
   paginateTransactions() {
     const pagination = this.state.pagination;
     const currentTransactions = this.state.transactions.slice(
@@ -91,6 +95,7 @@ class App extends Component {
       (pagination.pageIndex + 1) * pagination.pageSize
     );
 
+    console.log(currentTransactions.length);
     pagination.pageIndex++;
     this.setState({
       pagination,
@@ -116,37 +121,40 @@ class App extends Component {
 
     return (
       <div>
-        <Header
-          handleKeyPress={this.onKeyPress.bind(this)}
-          hashInput={this.hashInput.bind(this)}
-          hash={hash}
-          searching={searching}
-        />
-        {!this.state.basicInfo && (
-          <Grid container justify="center" className="introduction">
-            <Grid item xs={5}>
-              <p>
-                This is a demo site of{' '}
-                <a href="https://www.blockchain.com/">BlockChain</a>, built with{' '}
-                <a href="https://reactjs.org/">React.js</a>.
-              </p>
-              <p>Enter block hash in the search box in the top right corner.</p>
-            </Grid>
+        <Header />
+        <Grid container justify="center" className="introduction">
+          <Grid item xs={6}>
+            <Search
+              handleKeyPress={this.onKeyPress.bind(this)}
+              hashInput={this.hashInput.bind(this)}
+              hash={hash}
+              searching={searching}
+              errmsg={errmsg}
+            />
+            <div className="sample-hash">
+              Block hash samples:
+              <ul>
+                <li>
+                  000000000000000001f942eb4bfa0aeccb6a14c268f4c72d5fff17270da771b9
+                </li>
+                <li>
+                  000000000845517b31c6820d83f25cff46429bf136a7515fe504116427e60f8e
+                </li>
+                <li>
+                  000000001a793b5b7732ee306b1e4196132e0193fac6457801f1e16e6ec89e6a
+                </li>
+              </ul>
+            </div>
           </Grid>
-        )}
-        {this.state.errmsg && (
-          <Grid container justify="center">
-            <Grid item>
-              <SnackbarContent
-                style={{ backgroundColor: red[600] }}
-                message={errmsg}
-              />
-            </Grid>
-          </Grid>
-        )}
+        </Grid>
         {this.state.basicInfo &&
           this.state.transactions && (
-            <Grid container justify="center" className="container">
+            <Grid
+              id="container"
+              container
+              justify="center"
+              className="container"
+            >
               <Grid item xs={10}>
                 <BasicInfo basicInfo={this.state.basicInfo} />
                 <Transactions
