@@ -110,6 +110,7 @@ class Transactions extends Component {
       <Grid container>
         {transactions && (
           <Grid item xs={12}>
+            <h1>Transactions</h1>
             {transactions.map((tx, idx) => {
               const outMap = lib.groupTransactionsByAddress(tx.out);
               let totalOutput = 0;
