@@ -22,7 +22,6 @@ class App extends Component {
         pageSize: constant.PAGE_SIZE,
         pageIndex: 0,
       },
-      hasMoreTransactions: false,
       transactions: [],
       currentTransactions: [],
       totalTransactionLength: 0,
@@ -99,8 +98,6 @@ class App extends Component {
     this.setState({
       pagination,
       currentTransactions,
-      hasMoreTransactions:
-        currentTransactions.length < this.state.transactions.length,
     });
   }
 
@@ -115,7 +112,6 @@ class App extends Component {
       errmsg,
       currentTransactions,
       totalTransactionLength,
-      hasMoreTransactions,
     } = this.state;
 
     return (
@@ -159,9 +155,7 @@ class App extends Component {
                 <Transactions
                   transactions={currentTransactions}
                   totalTransactionLength={totalTransactionLength}
-                  hasMore={hasMoreTransactions}
                   paginate={this.paginateTransactions.bind(this)}
-                  pageSize={20}
                 />
               </Grid>
             </Grid>

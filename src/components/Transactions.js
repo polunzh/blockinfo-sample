@@ -66,7 +66,7 @@ class Transactions extends Component {
   }
 
   render() {
-    const { transactions, hasMore } = this.props;
+    const { transactions, totalTransactionLength } = this.props;
 
     return (
       <Grid container>
@@ -144,7 +144,8 @@ class Transactions extends Component {
                 </Table>
               );
             })}
-            {hasMore && this.rendLoadMoreButton()}
+            {totalTransactionLength > transactions.length &&
+              this.rendLoadMoreButton()}
           </Grid>
         )}
       </Grid>
@@ -154,6 +155,7 @@ class Transactions extends Component {
 
 Transactions.propTypes = {
   transactions: PropTypes.array.isRequired,
+  totalTransactionLength: PropTypes.number.isRequired,
 };
 
 export default Transactions;
