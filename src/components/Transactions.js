@@ -8,23 +8,10 @@ import TableBody from '@material-ui/core/TableBody';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import ImageArrowRight from '../img/arrow_right_green.png';
-import constant from '../constant';
 import lib from '../lib';
+import constant from '../constant';
 
 class Transactions extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      hasMore: false,
-      pagination: {
-        pageSize: constant.PAGE_SIZE,
-        pageIndex: 0,
-      },
-      transactions: [],
-    };
-  }
-
   formatValue(value) {
     return value / 100000000;
   }
@@ -56,31 +43,6 @@ class Transactions extends Component {
     return 'No Inputs (Newly Generated Coins)';
   }
 
-  paginate() {
-    const pagination = this.state.pagination;
-    const transactions = this.props.transactions.slice(
-      0,
-      (pagination.pageIndex + 1) * pagination.pageSize
-    );
-
-    pagination.pageIndex++;
-    this.setState({
-      pagination,
-      transactions,
-      hasMore: transactions.length < this.props.transactions.length,
-    });
-  }
-
-  componentDidMount() {
-    if (this.props.pageSize) {
-      const pagination = this.state.pagination;
-      pagination.pageSize = this.props.pageSize;
-      this.setState({ pagination });
-    }
-
-    this.paginate();
-  }
-
   rendLoadMoreButton() {
     return (
       <div className="pagination">
@@ -91,10 +53,10 @@ class Transactions extends Component {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={this.paginate.bind(this)}
+                onClick={this.props.paginate}
               >
-                Load More ({this.state.transactions.length}/
-                {this.props.transactions.length})
+                Load More ({this.props.transactions.length}/
+                {this.props.totalTransactionLength})
               </Button>
             </Grid>
           </Grid>
@@ -104,7 +66,7 @@ class Transactions extends Component {
   }
 
   render() {
-    const { transactions } = this.state;
+    const { transactions, hasMore } = this.props;
 
     return (
       <Grid container>
@@ -182,7 +144,7 @@ class Transactions extends Component {
                 </Table>
               );
             })}
-            {this.state.hasMore && this.rendLoadMoreButton()}
+            {hasMore && this.rendLoadMoreButton()}
           </Grid>
         )}
       </Grid>

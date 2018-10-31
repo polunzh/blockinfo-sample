@@ -5,6 +5,7 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 import axios from 'axios';
 import throttle from 'lodash.throttle';
 
+import constant from './constant';
 import Header from './components/Header';
 import BasicInfo from './components/BasicInfo';
 import Transactions from './components/Transactions';
@@ -17,6 +18,14 @@ class App extends Component {
       basicInfo: null,
       errmsg: '',
       searching: false,
+      hasMoreTransactions: false,
+      pagination: {
+        pageSize: constant.PAGE_SIZE,
+        pageIndex: 0,
+      },
+      transactions: [],
+      currentTransactions: [],
+      totalTransactionLength: 0,
     };
   }
 
@@ -57,8 +66,12 @@ class App extends Component {
       });
 
       const { tx: transactions, ...basicInfo } = resp.data;
-      this.setState({ basicInfo });
-      this.setState({ transactions });
+      this.setState({
+        basicInfo,
+        transactions,
+        totalTransactionLength: transactions.length,
+      });
+      this.paginateTransactions();
     } catch (error) {
       console.error(`search error: ${error.message}`);
       if (error.response && error.response.data) {
@@ -71,18 +84,43 @@ class App extends Component {
     }
   }
 
+  paginateTransactions() {
+    const pagination = this.state.pagination;
+    const currentTransactions = this.state.transactions.slice(
+      0,
+      (pagination.pageIndex + 1) * pagination.pageSize
+    );
+
+    pagination.pageIndex++;
+    this.setState({
+      pagination,
+      currentTransactions,
+      hasMoreTransactions:
+        currentTransactions.length < this.state.transactions.length,
+    });
+  }
+
   hashInput(e) {
     this.setState({ hash: e.target.value });
   }
 
   render() {
+    const {
+      hash,
+      searching,
+      errmsg,
+      currentTransactions,
+      totalTransactionLength,
+      hasMoreTransactions,
+    } = this.state;
+
     return (
       <div>
         <Header
           handleKeyPress={this.onKeyPress.bind(this)}
           hashInput={this.hashInput.bind(this)}
-          hash={this.state.hash}
-          searching={this.state.searching}
+          hash={hash}
+          searching={searching}
         />
         {!this.state.basicInfo && (
           <Grid container justify="center" className="introduction">
@@ -101,7 +139,7 @@ class App extends Component {
             <Grid item>
               <SnackbarContent
                 style={{ backgroundColor: red[600] }}
-                message={this.state.errmsg}
+                message={errmsg}
               />
             </Grid>
           </Grid>
@@ -112,7 +150,10 @@ class App extends Component {
               <Grid item xs={10}>
                 <BasicInfo basicInfo={this.state.basicInfo} />
                 <Transactions
-                  transactions={this.state.transactions}
+                  transactions={currentTransactions}
+                  totalTransactionLength={totalTransactionLength}
+                  hasMore={hasMoreTransactions}
+                  paginate={this.paginateTransactions.bind(this)}
                   pageSize={20}
                 />
               </Grid>
