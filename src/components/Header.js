@@ -2,12 +2,8 @@ import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
-import SearchIcon from '@material-ui/icons/Search';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import PropTypes from 'prop-types';
 
 const styles = theme => ({
   root: {
@@ -70,7 +66,7 @@ const styles = theme => ({
 });
 
 function Header(props) {
-  const { classes, searching } = props;
+  const { classes } = props;
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -83,34 +79,10 @@ function Header(props) {
           >
             <a href="/">BLOCKCHAIN</a>
           </Typography>
-          <div className={classes.grow} />
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              {!searching && <SearchIcon />}
-              {searching && <CircularProgress color="inherit" size={30} />}
-            </div>
-            <InputBase
-              placeholder="block hash"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              onKeyPress={props.handleKeyPress}
-              onChange={props.hashInput}
-              value={props.hash}
-            />
-          </div>
         </Toolbar>
       </AppBar>
     </div>
   );
 }
-
-Header.propTypes = {
-  hash: PropTypes.string,
-  hashInput: PropTypes.func,
-  search: PropTypes.func,
-  searching: PropTypes.bool.isRequired,
-};
 
 export default withStyles(styles)(Header);
