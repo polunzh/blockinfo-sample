@@ -139,9 +139,6 @@ class App extends Component {
                 <li>
                   000000000845517b31c6820d83f25cff46429bf136a7515fe504116427e60f8e
                 </li>
-                <li>
-                  000000001a793b5b7732ee306b1e4196132e0193fac6457801f1e16e6ec89e6a
-                </li>
               </ul>
             </div>
           </Grid>
